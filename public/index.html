@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Budget Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="auth-wrap" id="authScreen">
+  <div class="auth-card">
+    <h1 id="authTitle">Welcome back</h1>
+    <p id="authSub">Log in to your budget manager.</p>
+    <label for="authUser">Username</label>
+    <input id="authUser" type="text" autocomplete="username">
+    <label for="authPass">Password</label>
+    <input id="authPass" type="password" autocomplete="current-password">
+    <button class="add-btn" id="authSubmit">Log in</button>
+    <div class="auth-error" id="authError"></div>
+    <div class="auth-switch">No account? <a id="authToggle">Register</a></div>
+  </div>
+</div>
+
+<div class="wrap" id="appRoot" style="display:none">
+  <header>
+    <div class="t"><h1>Budget Manager</h1><p>Income, expenses, budgets and reports — saved to your account</p></div>
+    <input id="profileName" type="text" placeholder="Your name">
+  </header>
+
+  <div class="summary" id="summaryCards"></div>
+
+  <div class="tabs">
+    <button class="on" data-tab="dash">Dashboard</button>
+    <button data-tab="ledger">Ledger</button>
+    <button data-tab="budgets">Budgets</button>
+    <button data-tab="reports">Reports</button>
+    <button data-tab="profile">Profile</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tabpage on" id="tab-dash">
+    <div class="chartrow">
+      <div class="card"><h2>Income vs expenses</h2><svg id="barChart" viewBox="0 0 260 160" style="width:100%"></svg></div>
+      <div class="card"><h2>Expenses by category</h2><svg id="pieChart" viewBox="0 0 260 160" style="width:100%"></svg><div id="pieLegend" style="font-size:11px; margin-top:8px;"></div></div>
+    </div>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="tabpage" id="tab-ledger">
+    <div class="grid">
+      <div class="card">
+        <h2>New entry</h2>
+        <label>Type</label>
+        <div class="type-toggle"><button class="sel exp" id="typeExp" data-t="expense">Expense</button><button id="typeInc" data-t="income">Income</button></div>
+        <label for="desc" id="descLabel">Description</label>
+        <input id="desc" type="text" placeholder="e.g. Textbooks">
+        <label for="amount">Amount</label>
+        <input id="amount" type="text" inputmode="decimal" placeholder="0.00">
+        <label for="category" id="catLabel">Category</label>
+        <select id="category"></select>
+        <label for="date">Date</label>
+        <input id="date" type="date">
+        <button class="add-btn" id="addBtn">Add to ledger</button>
+        <div class="status-msg" id="statusMsg"></div>
+        <div class="json-tools"><button id="exportBtn">Export .json</button><button id="importBtn">Import .json</button></div>
+        <input type="file" id="importFile" accept="application/json">
+      </div>
+      <div class="card"><h2>Ledger — <span id="entryCount">0</span> entries</h2><div id="ledgerList"></div></div>
+    </div>
+  </div>
+
+  <!-- BUDGETS -->
+  <div class="tabpage" id="tab-budgets">
+    <div class="card" style="max-width:420px;">
+      <h2>Monthly budget</h2>
+      <label for="monthlyBudget">Total monthly budget</label>
+      <input id="monthlyBudget" type="text" inputmode="decimal">
+      <div class="bud-row" style="margin-top:12px;">
+        <div class="bud-head"><span>This month's spending</span><span class="nums" id="monthlyNums"></span></div>
+        <div class="bud-track"><div class="bud-fill" id="monthlyFill"></div></div>
+      </div>
+    </div>
+    <div class="card" style="max-width:420px;"><h2>Category budgets</h2><div id="budgetList"></div></div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="tabpage" id="tab-reports">
+    <div class="card"><h2>Monthly spending trend</h2><svg id="trendChart" viewBox="0 0 600 160" style="width:100%"></svg></div>
+    <div class="chartrow">
+      <div class="card">
+        <h2>Category-wise expenses</h2>
+        <table><thead><tr><th>Category</th><th class="num">Spent</th></tr></thead><tbody id="catTable"></tbody></table>
+      </div>
+      <div class="card">
+        <h2>Summary</h2>
+        <table><tbody id="summaryTable"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="tabpage" id="tab-profile">
+    <div class="card" style="max-width:380px;">
+      <h2>User profile</h2>
+      <div class="profile-row"><span>Username</span><strong id="profileUserOut"></strong></div>
+      <label for="newPass">Change password</label>
+      <input id="newPass" type="password" autocomplete="new-password" placeholder="New password">
+      <button class="add-btn" id="changePassBtn">Update password</button>
+      <div class="status-msg" id="profileStatus"></div>
+      <button class="logout-btn" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
